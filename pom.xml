@@ -19,9 +19,13 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>discovery-server</module>
-        <module>product-service</module>
+        <module>config-server</module>
         <module>order-service</module>
+        <module>payment-service</module>
+        <module>product-service</module>
+        <module>customer-service</module>
+        <module>discovery-server</module>
+        <module>notification-service</module>
     </modules>
 
     <properties>
