@@ -7,8 +7,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("products")
 public class ProductController {
+
     @GetMapping("/hello")
     public String printHello(){
         return "Hello From Products Controller!! -_-";
+    }
+
+    @GetMapping("/all")
+    public String getAll(){
+        return "All Products --> (Phone, Laptop, TV, Tones) !! -_-";
     }
 }
