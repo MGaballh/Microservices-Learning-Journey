@@ -19,6 +19,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>gateway</module>
         <module>config-server</module>
         <module>order-service</module>
         <module>payment-service</module>
