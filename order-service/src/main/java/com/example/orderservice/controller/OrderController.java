@@ -1,5 +1,6 @@
 package com.example.orderservice.controller;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import com.example.orderservice.client.ProductClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +20,15 @@ public class OrderController {
     }
 
     @GetMapping("/product")
+    @CircuitBreaker(
+            name = "productService",
+            fallbackMethod = "productFallback"
+    )
     public String getProductFromProductService(){
         return productClient.getAllProduct();
+    }
+
+    public String productFallback(Throwable throwable){
+        return "Product Service is currently unavailable. Please try again later!! -_-";
     }
 }
