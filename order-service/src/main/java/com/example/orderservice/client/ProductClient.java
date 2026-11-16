@@ -8,4 +8,7 @@ public interface ProductClient {
 
     @GetMapping("/products/all")
     String getAllProduct();
+
+    @GetMapping("/products/slow")
+    String slow();
 }

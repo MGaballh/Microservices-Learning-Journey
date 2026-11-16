@@ -17,4 +17,12 @@ public class ProductController {
     public String getAll(){
         return "All Products --> (Phone, Laptop, TV, Tones) !! -_-";
     }
+
+    @GetMapping("/slow")
+    public String slowResponse() throws InterruptedException {
+        Thread.sleep(5000);
+
+        return "Response From Product Service After 5 Seconds";
+    }
+
 }

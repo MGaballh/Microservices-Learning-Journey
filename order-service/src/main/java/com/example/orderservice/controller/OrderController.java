@@ -28,6 +28,15 @@ public class OrderController {
         return productClient.getAllProduct();
     }
 
+    @GetMapping("/product/slow")
+    @CircuitBreaker(
+            name = "productService",
+            fallbackMethod = "productFallback"
+    )
+    public String getSlowProductResponse() {
+        return productClient.slow();
+    }
+
     public String productFallback(Throwable throwable){
         return "Product Service is currently unavailable. Please try again later!! -_-";
     }
