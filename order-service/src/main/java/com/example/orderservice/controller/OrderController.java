@@ -2,6 +2,7 @@ package com.example.orderservice.controller;
 
 import io.github.resilience4j.bulkhead.annotation.Bulkhead;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
 import com.example.orderservice.client.ProductClient;
@@ -64,6 +65,23 @@ public class OrderController {
     }
 
     public String bulkheadFallback(Throwable throwable) {
-        return "Product Service is busy. Please try again later! -_- BulkHead -_-";
+        throwable.printStackTrace();
+
+        return "Fallback: " +
+                throwable.getClass().getSimpleName() +
+                " - " + throwable.getMessage();
+    }
+
+    @GetMapping("/product/rate-limit")
+    @RateLimiter(
+            name = "productServiceRateLimiter",
+            fallbackMethod = "rateLimitFallback"
+    )
+    public String getProductWithRateLimit() {
+        return productClient.getAllProduct();
+    }
+
+    public String rateLimitFallback(Throwable throwable) {
+        return "Too many requests! Please try again later. -_- Rate Limiter";
     }
 }
