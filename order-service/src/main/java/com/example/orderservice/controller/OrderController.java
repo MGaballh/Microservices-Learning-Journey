@@ -1,5 +1,6 @@
 package com.example.orderservice.controller;
 
+import io.github.resilience4j.bulkhead.annotation.Bulkhead;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
@@ -51,5 +52,18 @@ public class OrderController {
 
     public String productRetryFallback(Throwable throwable) {
         return "Product Service failed after retry attempts!";
+    }
+
+    @GetMapping("/product/bulkhead")
+    @Bulkhead(
+            name = "productServiceBulkhead",
+            fallbackMethod = "bulkheadFallback"
+    )
+    public String getProductWithBulkhead() {
+        return productClient.slow();
+    }
+
+    public String bulkheadFallback(Throwable throwable) {
+        return "Product Service is busy. Please try again later! -_- BulkHead -_-";
     }
 }
